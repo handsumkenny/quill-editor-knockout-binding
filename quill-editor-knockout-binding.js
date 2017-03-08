@@ -21,7 +21,7 @@ ko.bindingHandlers.quill = {
     var toolbarSelector = null;
     if (ko.isObservable(params)) {
       htmlObservable = params;
-      quill.setHTML(ko.unwrap(htmlObservable));
+      quill.setText(ko.unwrap(htmlObservable));
     }
     else {
       htmlObservable = params["html"];
@@ -29,19 +29,20 @@ ko.bindingHandlers.quill = {
       toolbarSelector = params["toolbar"];
 
       if (htmlObservable) {
-        quill.setHTML(ko.unwrap(htmlObservable) || "");
+        quill.setText(ko.unwrap(htmlObservable) || "");
       } else if (textObservable) {
         quill.setText(ko.unwrap(textObservable) || "");
       }
       if (toolbarSelector) {
-        quill.addModule("toolbar", { container: toolbarSelector });
+          // quill.addModule("toolbar", { container: toolbarSelector });
+          quill.addContainer(toolbarSelector);
       }
     }
 
     // Make sure we update the observables when the editor contents change.
     quill.on("text-change", function(delta, source) {
       if (htmlObservable && ko.isObservable(htmlObservable)) {
-        htmlObservable(quill.getHTML());
+          htmlObservable(quill.getText());
       }
       if (textObservable && ko.isObservable(textObservable)) {
         textObservable(quill.getText());
@@ -64,17 +65,17 @@ ko.bindingHandlers.quill = {
     }
 
     // Update the relevant values in the Quill editor.
-    var quill = $.data(element, "quill");
-    var selection = quill.getSelection();
-    if (htmlObservable) {
-      quill.setHTML(ko.unwrap(htmlObservable) || "");
-    } else if (textObservable) {
-      quill.setText(ko.unwrap(textObservable) || "");
-    }
-    if (enableObservable) {
-      quill.editor.enable(ko.unwrap(enableObservable));
-    }
-    quill.setSelection(selection);
+    //var quill = $.data(element, "quill");
+    //var selection = quill.getSelection();
+    //if (htmlObservable) {
+    //  quill.setText(ko.unwrap(htmlObservable) || "");
+    //} else if (textObservable) {
+    //  quill.setText(ko.unwrap(textObservable) || "");
+    //}
+    //if (enableObservable) {
+    //  quill.enable(ko.unwrap(enableObservable));
+    //}
+    //quill.setSelection(selection);
   }
 
 };
